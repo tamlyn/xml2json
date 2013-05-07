@@ -8,5 +8,6 @@ Example usage:
     echo json_encode($arrayData);
 
 
-[More info](http://outlandishideas.co.uk/blog/2012/08/xml-to-json/)
-[Public domain](http://creativecommons.org/publicdomain/mark/1.0/)
+Read the blog post for [more info](http://outlandishideas.co.uk/blog/2012/08/xml-to-json/).
+
+License: [Public domain](http://creativecommons.org/publicdomain/mark/1.0/)
