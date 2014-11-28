@@ -18,17 +18,18 @@
 
 function xmlToArray($xml, $options = array()) {
     $defaults = array(
-        'namespaceSeparator' => ':',//you may want this to be something other than a colon
-        'attributePrefix' => '@',   //to distinguish between attributes and nodes with the same name
-        'alwaysArray' => array(),   //array of xml tag names which should always become arrays
-        'autoArray' => true,        //only create arrays for tags which appear more than once
-        'textContent' => '$',       //key used for the text content of elements
-        'autoText' => true,         //skip textContent key if node has no attributes or child nodes
-        'keySearch' => false,       //optional search and replace on tag and attribute names
-        'keyReplace' => false       //replace values for above search values (as passed to str_replace())
+	    'namespaceRecursive' => false,  //setting to true will get xml doc namespaces recursively
+        'namespaceSeparator' => ':',    //you may want this to be something other than a colon
+        'attributePrefix' => '@',       //to distinguish between attributes and nodes with the same name
+        'alwaysArray' => array(),       //array of xml tag names which should always become arrays
+        'autoArray' => true,            //only create arrays for tags which appear more than once
+        'textContent' => '$',           //key used for the text content of elements
+        'autoText' => true,             //skip textContent key if node has no attributes or child nodes
+        'keySearch' => false,           //optional search and replace on tag and attribute names
+        'keyReplace' => false           //replace values for above search values (as passed to str_replace())
     );
     $options = array_merge($defaults, $options);
-    $namespaces = $xml->getDocNamespaces();
+    $namespaces = $xml->getDocNamespaces($options['namespaceRecursive']);
     $namespaces[''] = null; //add base (empty) namespace
  
     //get attributes from all namespaces
