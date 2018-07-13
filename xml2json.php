@@ -18,22 +18,25 @@
 
 function xmlToArray($xml, $options = array()) {
     $defaults = array(
-        'namespaceSeparator' => ':',//you may want this to be something other than a colon
-        'attributePrefix' => '@',   //to distinguish between attributes and nodes with the same name
-        'alwaysArray' => array(),   //array of xml tag names which should always become arrays
-        'autoArray' => true,        //only create arrays for tags which appear more than once
-        'textContent' => '$',       //key used for the text content of elements
-        'autoText' => true,         //skip textContent key if node has no attributes or child nodes
-        'keySearch' => false,       //optional search and replace on tag and attribute names
-        'keyReplace' => false       //replace values for above search values (as passed to str_replace())
+	    'namespaceRecursive' => false,  //setting to true will get xml doc namespaces recursively
+	    'removeNamespace' => false,     //set to true if you want to remove the namespace from resulting keys (recommend setting namespaceSeparator = '' when this is set to true)
+        'namespaceSeparator' => ':',    //you may want this to be something other than a colon
+        'attributePrefix' => '@',       //to distinguish between attributes and nodes with the same name
+        'alwaysArray' => array(),       //array of xml tag names which should always become arrays
+        'autoArray' => true,            //only create arrays for tags which appear more than once
+        'textContent' => '$',           //key used for the text content of elements
+        'autoText' => true,             //skip textContent key if node has no attributes or child nodes
+        'keySearch' => false,           //optional search and replace on tag and attribute names
+        'keyReplace' => false           //replace values for above search values (as passed to str_replace())
     );
     $options = array_merge($defaults, $options);
-    $namespaces = $xml->getDocNamespaces();
+    $namespaces = $xml->getDocNamespaces($options['namespaceRecursive']);
     $namespaces[''] = null; //add base (empty) namespace
  
     //get attributes from all namespaces
     $attributesArray = array();
     foreach ($namespaces as $prefix => $namespace) {
+        if ($options['removeNamespace']) $prefix = "";
         foreach ($xml->attributes($namespace) as $attributeName => $attribute) {
             //replace characters in attribute name
             if ($options['keySearch']) $attributeName =
@@ -48,6 +51,7 @@ function xmlToArray($xml, $options = array()) {
     //get child nodes from all namespaces
     $tagsArray = array();
     foreach ($namespaces as $prefix => $namespace) {
+        if ($options['removeNamespace']) $prefix = "";
         foreach ($xml->children($namespace) as $childXml) {
             //recurse into child nodes
             $childArray = xmlToArray($childXml, $options);
