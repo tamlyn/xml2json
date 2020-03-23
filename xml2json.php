@@ -56,7 +56,7 @@ function xmlToArray($xml, $options = array()) {
     $tagsArray = array();
     foreach ($namespaces as $prefix => $namespace) {
         if ($options['removeNamespace']) {
-            $prefix = "";
+            $prefix = '';
         }
         foreach ($xml->children($namespace) as $childXml) {
             //recurse into child nodes
