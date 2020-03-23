@@ -36,11 +36,15 @@ function xmlToArray($xml, $options = array()) {
     //get attributes from all namespaces
     $attributesArray = array();
     foreach ($namespaces as $prefix => $namespace) {
-        if ($options['removeNamespace']) $prefix = "";
+        if ($options['removeNamespace']) {
+            $prefix = '';
+        }
         foreach ($xml->attributes($namespace) as $attributeName => $attribute) {
             //replace characters in attribute name
-            if ($options['keySearch']) $attributeName =
+            if ($options['keySearch']) {
+                $attributeName =
                     str_replace($options['keySearch'], $options['keyReplace'], $attributeName);
+            }
             $attributeKey = $options['attributePrefix']
                     . ($prefix ? $prefix . $options['namespaceSeparator'] : '')
                     . $attributeName;
@@ -51,7 +55,9 @@ function xmlToArray($xml, $options = array()) {
     //get child nodes from all namespaces
     $tagsArray = array();
     foreach ($namespaces as $prefix => $namespace) {
-        if ($options['removeNamespace']) $prefix = "";
+        if ($options['removeNamespace']) {
+            $prefix = "";
+        }
         foreach ($xml->children($namespace) as $childXml) {
             //recurse into child nodes
             $childArray = xmlToArray($childXml, $options);
@@ -59,10 +65,14 @@ function xmlToArray($xml, $options = array()) {
             $childProperties = current($childArray);
  
             //replace characters in tag name
-            if ($options['keySearch']) $childTagName =
+            if ($options['keySearch']) {
+                $childTagName =
                     str_replace($options['keySearch'], $options['keyReplace'], $childTagName);
+            }
             //add namespace prefix, if any
-            if ($prefix) $childTagName = $prefix . $options['namespaceSeparator'] . $childTagName;
+            if ($prefix) {
+                $childTagName = $prefix . $options['namespaceSeparator'] . $childTagName;
+            }
  
             if (!isset($tagsArray[$childTagName])) {
                 //only entry with this key
@@ -86,7 +96,9 @@ function xmlToArray($xml, $options = array()) {
     //get text content of node
     $textContentArray = array();
     $plainText = trim((string)$xml);
-    if ($plainText !== '') $textContentArray[$options['textContent']] = $plainText;
+    if ($plainText !== '') {
+        $textContentArray[$options['textContent']] = $plainText;
+    }
  
     //stick it all together
     $propertiesArray = !$options['autoText'] || $attributesArray || $tagsArray || ($plainText === '')
