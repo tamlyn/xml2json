@@ -18,8 +18,8 @@
 
 function xmlToArray($xml, $options = array()) {
     $defaults = array(
-	    'namespaceRecursive' => false,  //setting to true will get xml doc namespaces recursively
-	    'removeNamespace' => false,     //set to true if you want to remove the namespace from resulting keys (recommend setting namespaceSeparator = '' when this is set to true)
+        'namespaceRecursive' => false,  //setting to true will get xml doc namespaces recursively
+        'removeNamespace' => false,     //set to true if you want to remove the namespace from resulting keys (recommend setting namespaceSeparator = '' when this is set to true)
         'namespaceSeparator' => ':',    //you may want this to be something other than a colon
         'attributePrefix' => '@',       //to distinguish between attributes and nodes with the same name
         'alwaysArray' => array(),       //array of xml tag names which should always become arrays
@@ -46,8 +46,8 @@ function xmlToArray($xml, $options = array()) {
                     str_replace($options['keySearch'], $options['keyReplace'], $attributeName);
             }
             $attributeKey = $options['attributePrefix']
-                    . ($prefix ? $prefix . $options['namespaceSeparator'] : '')
-                    . $attributeName;
+                . ($prefix ? $prefix . $options['namespaceSeparator'] : '')
+                . $attributeName;
             $attributesArray[$attributeKey] = (string)$attribute;
         }
     }
@@ -58,6 +58,7 @@ function xmlToArray($xml, $options = array()) {
         if ($options['removeNamespace']) {
             $prefix = '';
         }
+
         foreach ($xml->children($namespace) as $childXml) {
             //recurse into child nodes
             $childArray = xmlToArray($childXml, $options);
@@ -69,6 +70,7 @@ function xmlToArray($xml, $options = array()) {
                 $childTagName =
                     str_replace($options['keySearch'], $options['keyReplace'], $childTagName);
             }
+
             //add namespace prefix, if any
             if ($prefix) {
                 $childTagName = $prefix . $options['namespaceSeparator'] . $childTagName;
@@ -102,7 +104,7 @@ function xmlToArray($xml, $options = array()) {
  
     //stick it all together
     $propertiesArray = !$options['autoText'] || $attributesArray || $tagsArray || ($plainText === '')
-            ? array_merge($attributesArray, $tagsArray, $textContentArray) : $plainText;
+        ? array_merge($attributesArray, $tagsArray, $textContentArray) : $plainText;
  
     //return node as array
     return array(
