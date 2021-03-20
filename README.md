@@ -9,6 +9,6 @@ Example usage:
     echo json_encode($arrayData);
 ```
 
-Read the blog post for [more info](http://outlandishideas.co.uk/blog/2012/08/xml-to-json/).
+Read the blog post for [more info](https://outlandish.com/blog/tutorial/xml-to-json/).
 
 License: [Public domain](http://creativecommons.org/publicdomain/mark/1.0/)
